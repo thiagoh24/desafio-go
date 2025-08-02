@@ -4,6 +4,8 @@ WORKDIR /usr/src/app
 COPY . .
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -o /app/app
 
+RUN apk add --no-cache upx && upx --best /app/app
+
 FROM scratch
 COPY --from=builder /app/app /app
 EXPOSE 8080
